@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #*-------------------------------------------------------------------------*
 #* factorial.py                                                            *
-#* calcula el factorial de un número                                       *
+#* Calcula los factoriales en un rango de números                          *
 #* Dr.P.E.Colla (c) 2022                                                   *
 #* Creative commons                                                        *
 #*-------------------------------------------------------------------------*
@@ -10,7 +10,7 @@ import sys
 def factorial(num): 
     if num < 0: 
         print("Factorial de un número negativo no existe")
-        return 0
+        return None
     elif num == 0: 
         return 1
     else: 
@@ -20,13 +20,30 @@ def factorial(num):
             num -= 1
         return fact 
 
-# Verifica si se pasó un argumento, si no, lo solicita
+# Verifica si se pasó un argumento, si no, lo solicita manualmente
 if len(sys.argv) == 1:
-    num = int(input("Ingrese un número para calcular su factorial: "))
+    entrada = input("Ingrese un número o un rango (ej. 4-8): ")
 else:
-    num = int(sys.argv[1])
+    entrada = sys.argv[1]
 
-print("Factorial", num, "! es", factorial(num))
+# Manejo del rango desde-hasta
+if "-" in entrada:
+    try:
+        desde, hasta = map(int, entrada.split("-"))
+        if desde > hasta:
+            print("Error: el primer número debe ser menor o igual al segundo.")
+        else:
+            for num in range(desde, hasta + 1):
+                print(f"Factorial {num}! es {factorial(num)}")
+    except ValueError:
+        print("Error: formato de entrada incorrecto. Use desde-hasta, ej. 4-8.")
+else:
+    try:
+        num = int(entrada)
+        print(f"Factorial {num}! es {factorial(num)}")
+    except ValueError:
+        print("Error: entrada no válida.")
+
 
 
 
