@@ -22,27 +22,36 @@ def factorial(num):
 
 # Verifica si se pasó un argumento, si no, lo solicita manualmente
 if len(sys.argv) == 1:
-    entrada = input("Ingrese un número o un rango (ej. 4-8): ")
+    entrada = input("Ingrese un número o un rango (ej. 4-8, -10, 5-): ")
 else:
     entrada = sys.argv[1]
 
-# Manejo del rango desde-hasta
-if "-" in entrada:
-    try:
-        desde, hasta = map(int, entrada.split("-"))
+# Manejo de rangos con diferentes formatos
+try:
+    if "-" in entrada:
+        if entrada.startswith("-"):
+            # Caso "-hasta"
+            hasta = int(entrada[1:])
+            desde = 1
+        elif entrada.endswith("-"):
+            # Caso "desde-"
+            desde = int(entrada[:-1])
+            hasta = 60
+        else:
+            # Caso "desde-hasta"
+            desde, hasta = map(int, entrada.split("-"))
+            
         if desde > hasta:
             print("Error: el primer número debe ser menor o igual al segundo.")
         else:
             for num in range(desde, hasta + 1):
                 print(f"Factorial {num}! es {factorial(num)}")
-    except ValueError:
-        print("Error: formato de entrada incorrecto. Use desde-hasta, ej. 4-8.")
-else:
-    try:
+    else:
         num = int(entrada)
         print(f"Factorial {num}! es {factorial(num)}")
-    except ValueError:
-        print("Error: entrada no válida.")
+except ValueError:
+    print("Error: entrada no válida. Use desde-hasta, -hasta o desde-.")
+
 
 
 
